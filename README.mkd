@@ -1,0 +1,3 @@
+# Peliculas Backend
+
+Una api creada utilizando _django_ y _django rest framework_
