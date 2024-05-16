@@ -1,7 +1,7 @@
 from django.db.models import Q
 from rest_framework import viewsets, permissions, filters
-from .models import Peliculas
-from .serializer import PeliculasSerializer
+from .models import Peliculas, Generos
+from .serializer import PeliculasSerializer, GenerosSerializer
 
 class PeliculasViewSet(viewsets.ModelViewSet):
   queryset = Peliculas.objects.all()
@@ -25,3 +25,7 @@ class PeliculasViewSet(viewsets.ModelViewSet):
       )
     
     return queryset
+
+class GenerosViewSet(viewsets.ModelViewSet):
+  queryset = Generos.objects.all()
+  serializer_class = GenerosSerializer
