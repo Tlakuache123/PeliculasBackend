@@ -107,6 +107,9 @@ class Directores(models.Model):
     class Meta:
         managed = False
         db_table = 'directores'
+    
+    def __str__(self):
+        return '%d' % (self.nombre)
 
 
 class DjangoAdminLog(models.Model):
