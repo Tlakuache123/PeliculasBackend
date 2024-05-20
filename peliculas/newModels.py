@@ -51,13 +51,13 @@ class AuthPermission(models.Model):
 class AuthUser(models.Model):
     password = models.CharField(max_length=128)
     last_login = models.DateTimeField(blank=True, null=True)
-    is_superuser = models.BooleanField()
+    is_superuser = models.IntegerField()
     username = models.CharField(unique=True, max_length=150)
     first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
     email = models.CharField(max_length=254)
-    is_staff = models.BooleanField()
-    is_active = models.BooleanField()
+    is_staff = models.IntegerField()
+    is_active = models.IntegerField()
     date_joined = models.DateTimeField()
 
     class Meta:
@@ -107,16 +107,13 @@ class Directores(models.Model):
     class Meta:
         managed = False
         db_table = 'directores'
-    
-    def __str__(self):
-        return '%d' % (self.nombre)
 
 
 class DjangoAdminLog(models.Model):
     action_time = models.DateTimeField()
     object_id = models.TextField(blank=True, null=True)
     object_repr = models.CharField(max_length=200)
-    action_flag = models.SmallIntegerField()
+    action_flag = models.PositiveSmallIntegerField()
     change_message = models.TextField()
     content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
@@ -165,15 +162,23 @@ class Estudios(models.Model):
         managed = False
         db_table = 'estudios'
 
-# !TODO Cambiar nombre u origen de la tabla
+
 class Generos(models.Model):
     id = models.IntegerField(primary_key=True)
     nombre = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         managed = False
-        #db_table = "generos"
-        db_table = 'Vista_generos2'
+        db_table = 'generos'
+
+
+class GenerosFederados(models.Model):
+    id = models.IntegerField(primary_key=True)
+    nombre = models.CharField(max_length=50, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'generos_federados'
 
 
 class ListasReproduccion(models.Model):
@@ -219,16 +224,6 @@ class PeliculasGeneros(models.Model):
         unique_together = (('pelicula', 'genero'),)
 
 
-class PeliculasGenerosFragmentada(models.Model):
-    genero = models.OneToOneField(Generos, models.DO_NOTHING, primary_key=True)  # The composite primary key (genero_id, pelicula_id) found, that is not supported. The first column is selected.
-    pelicula = models.ForeignKey(Peliculas, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'peliculas_generos_fragmentada'
-        unique_together = (('genero', 'pelicula'),)
-
-
 class PeliculasListas(models.Model):
     pelicula = models.OneToOneField(Peliculas, models.DO_NOTHING, primary_key=True)  # The composite primary key (pelicula_id, lista_id) found, that is not supported. The first column is selected.
     lista = models.ForeignKey(ListasReproduccion, models.DO_NOTHING)
@@ -249,16 +244,6 @@ class PeliculasPaises(models.Model):
         unique_together = (('pelicula', 'pais'),)
 
 
-class PeliculasPaisesFragmentada(models.Model):
-    pais = models.OneToOneField(Paises, models.DO_NOTHING, primary_key=True)  # The composite primary key (pais_id, pelicula_id) found, that is not supported. The first column is selected.
-    pelicula = models.ForeignKey(Peliculas, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'peliculas_paises_fragmentada'
-        unique_together = (('pais', 'pelicula'),)
-
-
 class Premios(models.Model):
     id = models.IntegerField(primary_key=True)
     nombre = models.CharField(max_length=255, blank=True, null=True)
@@ -267,18 +252,6 @@ class Premios(models.Model):
     class Meta:
         managed = False
         db_table = 'premios'
-
-
-class ProjectsProject(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    title = models.CharField(max_length=200)
-    description = models.TextField()
-    technology = models.CharField(max_length=200)
-    created_at = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'projects_project'
 
 
 class Usuarios(models.Model):

@@ -80,12 +80,24 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'peliculas',
+        'USER': 'Bolillo',
+        'PASSWORD': '1234',
+        'HOST': '0.tcp.ngrok.io',
+        'PORT': '11276',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
+    },
+    'postgres': {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "dbdistribuida",
         "USER": "postgres",
         "PASSWORD": "admin",
     }
 }
+
 
 
 # Password validation

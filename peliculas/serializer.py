@@ -1,11 +1,16 @@
 from rest_framework import serializers
-from .models import Peliculas, Generos, PeliculasGeneros
+from .models import Peliculas, Generos, PeliculasGeneros, Directores
 
 
 class GenerosSerializer(serializers.ModelSerializer):
   class Meta:
     model = Generos
     fields = ("id", "nombre")
+
+class DirectoresSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Directores
+    fields = "__all__"
 
 class PeliculasSerializer(serializers.ModelSerializer):
   generos = serializers.SerializerMethodField()
